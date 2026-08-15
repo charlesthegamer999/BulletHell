@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 2434009105527862148}
   - component: {fileID: 8325644501724323570}
   - component: {fileID: 3465917631198146028}
+  - component: {fileID: 418532195853079310}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -334,3 +335,19 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &418532195853079310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6349007979453130245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a439eb4406a50240b57ce57495953fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCannon
+  Bullet: {fileID: 4765590445513806755, guid: 8314a251a2252bd46a75cdc5520bb83e, type: 3}
+  damageValue: 0
+  bulletSpeed: 5
+  ammoCount: 30
