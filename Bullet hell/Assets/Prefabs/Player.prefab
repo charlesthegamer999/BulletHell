@@ -350,4 +350,6 @@ MonoBehaviour:
   Bullet: {fileID: 4765590445513806755, guid: 8314a251a2252bd46a75cdc5520bb83e, type: 3}
   damageValue: 0
   bulletSpeed: 5
+  firePoint: {fileID: 0}
   ammoCount: 30
+  attackCooldown: 1.25

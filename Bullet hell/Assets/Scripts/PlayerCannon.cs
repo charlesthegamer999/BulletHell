@@ -17,6 +17,7 @@ public class PlayerCannon : MonoBehaviour
     {
         fireReady = true;
         playerMove = GetComponent<PlayerMovement>();
+        
     }
 
     void Update()
