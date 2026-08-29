@@ -5,14 +5,24 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] float health;
+   public /* [SerializeField]*/ float health;
     [SerializeField] float iframes;
     [SerializeField] SpriteRenderer playerGFX;
     bool canTakeDamage;
+    [SerializeField] GameObject[] HealthBars;
 
     void Start()
     {
         canTakeDamage = true;
+    }
+
+    private void Update()
+    {
+        if (health <= 0)
+        {
+            Debug.Log("Player is dead");
+            Destroy(gameObject, 0.5f);
+        }
     }
 
     public void ChangeHealth(float amount)
@@ -22,13 +32,19 @@ public class PlayerHealth : MonoBehaviour
             health += amount;
             canTakeDamage = false;
             StartCoroutine("FlashWhite");
-            if(health <= 0)
-            {
-                Debug.Log("Player is dead");
-                Destroy(gameObject, 0.5f);
-            }
+            
 
         }
+    }
+
+    public void TakenDamage()
+    {
+        int BarsLost = 0;
+        Debug.Log("You Have Been Hit");
+        canTakeDamage = false;
+        HealthBars[BarsLost].SetActive(false);
+        BarsLost++;
+        StartCoroutine("FlashWhite");
     }
 
 
@@ -36,7 +52,7 @@ public class PlayerHealth : MonoBehaviour
     {
        Color originColor = playerGFX.color;
 
-        playerGFX.color = Color.white;
+        playerGFX.color = Color.orange;
 
         yield return new WaitForSeconds(iframes);
 
