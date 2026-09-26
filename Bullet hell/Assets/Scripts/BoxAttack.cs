@@ -10,12 +10,15 @@ public class BoxAttack : MonoBehaviour
     {
         Debug.Log("Collision");
         collision.gameObject.GetComponent<PlayerHealth>().health += damage;
-        collision.gameObject.GetComponent<PlayerHealth>().TakenDamage();
-        gameObject.SetActive(false);
-        if (collision.gameObject.CompareTag("Player"))
+        if (damage < 0)
         {
-            
-
+            collision.gameObject.GetComponent<PlayerHealth>().TakenDamage();
         }
+        else
+        {
+            collision.gameObject.GetComponent<PlayerHealth>().HealDamage();
+        }
+        gameObject.SetActive(false);
+        
     }
 }

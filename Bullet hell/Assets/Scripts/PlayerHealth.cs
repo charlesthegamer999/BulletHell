@@ -2,18 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Build;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-   public /* [SerializeField]*/ float health;
+   public float health;
+    public TMP_Text LivesText;
     [SerializeField] float iframes;
     [SerializeField] SpriteRenderer playerGFX;
     bool canTakeDamage;
+    public bool isDead = true;
+    float BarsLost = 0;
     [SerializeField] GameObject[] HealthBars;
 
     void Start()
     {
+      
         canTakeDamage = true;
+    
     }
 
     private void Update()
@@ -21,7 +28,10 @@ public class PlayerHealth : MonoBehaviour
         if (health <= 0)
         {
             Debug.Log("Player is dead");
-            Destroy(gameObject, 0.5f);
+            if (isDead == true) { 
+             Destroy(gameObject, 0.5f);
+                isDead = false;
+            }
         }
     }
 
@@ -37,14 +47,36 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+
     public void TakenDamage()
     {
-        int BarsLost = 0;
+        
         Debug.Log("You Have Been Hit");
         canTakeDamage = false;
-        HealthBars[BarsLost].SetActive(false);
+        HealthBars[(int)BarsLost].SetActive(false);
         BarsLost++;
+        Debug.Log("You have lost" + BarsLost);
         StartCoroutine("FlashWhite");
+    }
+
+
+    public void HealDamage()
+    {
+        int BarsLost = 0;
+        Debug.Log("You Have Been Healed");
+        canTakeDamage = false;
+        HealthBars[BarsLost].SetActive(true);
+        BarsLost--;
+        StartCoroutine("FlashWhite");
+    }
+
+    public void RestoreBars()
+    {
+        for (int i = 0; i < HealthBars.Length; i++)
+        {
+            HealthBars[i].SetActive(true);
+        }
+        BarsLost = 0;
     }
 
 

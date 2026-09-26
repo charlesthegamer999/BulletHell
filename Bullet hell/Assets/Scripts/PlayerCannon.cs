@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class PlayerCannon : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerCannon : MonoBehaviour
     [SerializeField] float bulletSpeed;
     [SerializeField] Transform firePoint; // drag the FirePoint child here in Inspector
     [SerializeField] float ammoCount;
+    [SerializeField] TMP_Text ammoText; // Reference to the ammo text UI element
     public float attackCooldown = 0f;
 
     PlayerMovement playerMove;
@@ -26,6 +28,7 @@ public class PlayerCannon : MonoBehaviour
         {
             StartCoroutine(Fire());
         }
+       ammoText.text = "" + ammoCount; // Update the ammo text UI element
     }
 
     IEnumerator Fire()

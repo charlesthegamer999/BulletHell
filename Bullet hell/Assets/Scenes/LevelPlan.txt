@@ -1,0 +1,6 @@
+SPACE COURIER
+3 levels
+0. Training grounds
+1. General space
+2. Nebula
+3. Asteroid field
