@@ -1,14 +1,7 @@
 fileFormatVersion: 2
-guid: f254e398beb012142a24633fa2b82def
+guid: e2bd5a24f0afa3a4dba6cb01a771641d
 labels:
 - Asteroid
-AssetOrigin:
-  serializedVersion: 1
-  productId: 27662
-  packageName: 2D Space Kit
-  packageVersion: Initial 2
-  assetPath: Assets/2D Space Kit/Asteroids/Asteroid 4.png
-  uploadId: 46238
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     GameObject playerSpawnPoint;
     PlayerHealth PlayerH;
 
+    CameraFollow cam;
+
 
     GameObject test;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,9 +19,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         playerSpawnPoint = GameObject.FindGameObjectWithTag("Respawn");
 
-   
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+
         SpawnPlayer();
-        PlayerH = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+      //  PlayerH = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         test = GameObject.FindGameObjectWithTag("Player");
 
         PlayerH.LivesText.text = "Redeploys: " + lives;
@@ -32,7 +35,7 @@ public class GameManager : MonoBehaviour
         
 
         GameObject playerClone = Instantiate(player, playerSpawnPoint.transform.position, Quaternion.identity);
-       
+       cam.AquireTarget(playerClone);
         PlayerH = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         test = GameObject.FindGameObjectWithTag("Player");
        
@@ -40,11 +43,15 @@ public class GameManager : MonoBehaviour
         PlayerH.RestoreBars();
     }
      //Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-       if (PlayerH.health <= 0 && !PlayerH.isDead)
+        PlayerH = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        PlayerH.LivesText.text = "Redeploys: " + lives;
+        if (PlayerH.health <= 0)
         {
+            PlayerH.killPlayer();
             RespawnPlayer();
+            
         }
     }
 
@@ -62,11 +69,12 @@ public class GameManager : MonoBehaviour
             ChangeLives(-1);
             PlayerH.health = 20;
             PlayerH.RestoreBars();
-            //  SpawnPlayer();
+              SpawnPlayer();
+            PlayerH.LivesText.text = "Redeploys: " + lives;
         }
         else
         {
-            PlayerH.isDead = true;
+           
 
             Debug.Log("Game Over");
             // Implement game over logic here (e.g., show game over screen, restart level, etc.)

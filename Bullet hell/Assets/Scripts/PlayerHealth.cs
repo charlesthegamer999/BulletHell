@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] float iframes;
     [SerializeField] SpriteRenderer playerGFX;
     bool canTakeDamage;
-    public bool isDead = true;
+
     float BarsLost = 0;
     [SerializeField] GameObject[] HealthBars;
 
@@ -23,16 +23,23 @@ public class PlayerHealth : MonoBehaviour
     
     }
 
-    private void Update()
+    void Update()
     {
         if (health <= 0)
         {
             Debug.Log("Player is dead");
-            if (isDead == true) { 
+            
              Destroy(gameObject, 0.5f);
-                isDead = false;
-            }
+              
+            
         }
+    }
+
+   public void killPlayer()
+    {
+        Debug.Log("Player is dead");
+
+        Destroy(gameObject, 0.5f);
     }
 
     public void ChangeHealth(float amount)
