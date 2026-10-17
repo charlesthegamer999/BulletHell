@@ -1,14 +1,17 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using NUnit.Framework.Constraints;
+
 
 public class PlayerCannon : MonoBehaviour
 {
     [SerializeField] GameObject Bullet;
     [SerializeField] float damageValue;
+    public AudioSource fireSound;
     [SerializeField] float bulletSpeed;
     [SerializeField] Transform firePoint; // drag the FirePoint child here in Inspector
-    [SerializeField] float ammoCount;
+    public float ammoCount;
     [SerializeField] TMP_Text ammoText; // Reference to the ammo text UI element
     public float attackCooldown = 0f;
 
@@ -33,6 +36,7 @@ public class PlayerCannon : MonoBehaviour
 
     IEnumerator Fire()
     {
+        AudioSource.PlayClipAtPoint(fireSound.clip, transform.position);
         Debug.Log("Firing");
         fireReady = false;
 

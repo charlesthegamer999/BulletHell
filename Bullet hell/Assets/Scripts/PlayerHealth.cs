@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public TMP_Text LivesText;
     [SerializeField] float iframes;
     [SerializeField] SpriteRenderer playerGFX;
+    [SerializeField] AudioSource playerHitSound;
     bool canTakeDamage;
 
     float BarsLost = 0;
@@ -58,6 +59,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakenDamage()
     {
         
+        playerHitSound.Play();
         Debug.Log("You Have Been Hit");
         canTakeDamage = false;
         HealthBars[(int)BarsLost].SetActive(false);
