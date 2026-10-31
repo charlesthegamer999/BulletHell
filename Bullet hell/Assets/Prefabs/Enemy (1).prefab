@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd61777f38e608a4ca3aa8ceb77b12e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  health: 2
+  health: 1
   enemyGFX: {fileID: 957120152212328035}
 --- !u!60 &3728561455697353115
 PolygonCollider2D:

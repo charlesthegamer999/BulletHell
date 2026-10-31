@@ -6603,7 +6603,7 @@ Transform:
   m_GameObject: {fileID: 874210451}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.47, y: 33.02, z: 0}
+  m_LocalPosition: {x: 37.3, y: 36.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6622,7 +6622,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   ammoData: {fileID: 0}
-  sceneToLoad: 
+  gm: {fileID: 0}
+  sceneToLoad: Nebula
 --- !u!1001 &880444676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10709,7 +10710,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 1a66969665b53d447bf2bd675b3ad9da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -4,11 +4,13 @@ public class AstroidSpawner : MonoBehaviour
 {
     [SerializeField] GameObject astroidPrefab;
     [SerializeField] float speed;
+   
 
     Transform spawnPoint;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+       
         spawnPoint = transform;
     }
 

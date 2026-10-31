@@ -9,6 +9,7 @@ public class PlayerCannon : MonoBehaviour
     [SerializeField] GameObject Bullet;
     [SerializeField] float damageValue;
     public AudioSource fireSound;
+    
     [SerializeField] float bulletSpeed;
     [SerializeField] Transform firePoint; // drag the FirePoint child here in Inspector
     public float ammoCount;

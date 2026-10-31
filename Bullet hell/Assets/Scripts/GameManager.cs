@@ -1,10 +1,14 @@
 using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     [SerializeField] float lives;
     [SerializeField] GameObject player;
+
+    public bool isNewScene = false;
 
     GameObject playerSpawnPoint;
     PlayerHealth PlayerH;
@@ -16,8 +20,18 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
-        playerSpawnPoint = GameObject.FindGameObjectWithTag("Respawn");
+    
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    
+    playerSpawnPoint = GameObject.FindGameObjectWithTag("Respawn");
 
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
 
@@ -29,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-
+  
     public void SpawnPlayer()
     {
         
@@ -43,8 +57,13 @@ public class GameManager : MonoBehaviour
         PlayerH.RestoreBars();
     }
      //Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
+        if(isNewScene == true)
+        {
+            SpawnPlayer();
+            isNewScene = false;
+        }
         PlayerH = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         PlayerH.LivesText.text = "Redeploys: " + lives;
         if (PlayerH.health <= 0)
@@ -77,6 +96,7 @@ public class GameManager : MonoBehaviour
            
 
             Debug.Log("Game Over");
+            SceneManager.LoadScene("GameOver");
             // Implement game over logic here (e.g., show game over screen, restart level, etc.)
         }
     }
