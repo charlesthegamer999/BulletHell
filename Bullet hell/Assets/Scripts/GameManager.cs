@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     GameObject playerSpawnPoint;
     PlayerHealth PlayerH;
+  
 
     CameraFollow cam;
 
@@ -93,10 +94,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-           
 
+            Destroy(this.gameObject);
             Debug.Log("Game Over");
             SceneManager.LoadScene("GameOver");
+            Destroy(this);
             // Implement game over logic here (e.g., show game over screen, restart level, etc.)
         }
     }
