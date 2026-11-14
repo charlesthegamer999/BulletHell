@@ -1,85 +1,85 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
     [SerializeField] float lives;
-    [SerializeField] GameObject player;
+    [SerializeField] GameObject player; // must be a PREFAB from the Project window, not an object in a scene
 
-    public bool isNewScene = false;
+    PlayerHealth playerHealth;
 
-    GameObject playerSpawnPoint;
-    PlayerHealth PlayerH;
-  
-
-    CameraFollow cam;
-
-
-    GameObject test;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-    
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        // Classic singleton: if one already exists (e.g. this scene has its own copy), remove the duplicate.
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-    
-    playerSpawnPoint = GameObject.FindGameObjectWithTag("Respawn");
 
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
-
-        SpawnPlayer();
-      //  PlayerH = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
-        test = GameObject.FindGameObjectWithTag("Player");
-
-        PlayerH.LivesText.text = "Redeploys: " + lives;
-
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-  
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            Instance = null;
+        }
+    }
+
+    // Runs automatically every time a scene finishes loading, so SpaceStation doesn't need to tell us.
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameOver") return;
+        SpawnPlayer();
+    }
+
     public void SpawnPlayer()
     {
-        
+        // Look these up fresh every time. Anything cached from the previous scene is destroyed by now.
+        GameObject spawnPoint = GameObject.FindGameObjectWithTag("Respawn");
+        if (spawnPoint == null)
+        {
+            Debug.LogError("No object tagged 'Respawn' in scene " + SceneManager.GetActiveScene().name);
+            return;
+        }
 
-        GameObject playerClone = Instantiate(player, playerSpawnPoint.transform.position, Quaternion.identity);
-       cam.AquireTarget(playerClone);
-        PlayerH = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
-        test = GameObject.FindGameObjectWithTag("Player");
-       
-        PlayerH.health = 20;
-        PlayerH.RestoreBars();
+        GameObject playerClone = Instantiate(player, spawnPoint.transform.position, Quaternion.identity);
+
+        CameraFollow cam = FindFirstObjectByType<CameraFollow>();
+        if (cam != null) cam.AquireTarget(playerClone);
+        else Debug.LogWarning("No CameraFollow found in scene.");
+
+        // Use the clone we just made rather than FindGameObjectWithTag, which could still find a dying old player.
+        playerHealth = playerClone.GetComponent<PlayerHealth>();
+        playerHealth.health = 20;
+        playerHealth.RestoreBars();
+        UpdateLivesText();
     }
-     //Update is called once per frame
+
     void Update()
     {
-        if(isNewScene == true)
+        // playerHealth is null (Unity-style) whenever there's no live player, so this is safe between spawns.
+        if (playerHealth == null) return;
+
+        if (playerHealth.health <= 0)
         {
-            SpawnPlayer();
-            isNewScene = false;
-        }
-        PlayerH = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
-        PlayerH.LivesText.text = "Redeploys: " + lives;
-        if (PlayerH.health <= 0)
-        {
-            PlayerH.killPlayer();
+            playerHealth.killPlayer();
+            playerHealth = null;
             RespawnPlayer();
-            
         }
     }
 
     public void ChangeLives(float amount)
     {
         lives += amount;
-        PlayerH.LivesText.text = "Redeploys: " + lives;
-       
+        UpdateLivesText();
     }
 
     public void RespawnPlayer()
@@ -87,19 +87,19 @@ public class GameManager : MonoBehaviour
         if (lives > 0)
         {
             ChangeLives(-1);
-            PlayerH.health = 20;
-            PlayerH.RestoreBars();
-              SpawnPlayer();
-            PlayerH.LivesText.text = "Redeploys: " + lives;
+            SpawnPlayer();
         }
         else
         {
-
-            Destroy(this.gameObject);
             Debug.Log("Game Over");
+            Destroy(gameObject);
             SceneManager.LoadScene("GameOver");
-            Destroy(this);
-            // Implement game over logic here (e.g., show game over screen, restart level, etc.)
         }
+    }
+
+    void UpdateLivesText()
+    {
+        if (playerHealth != null && playerHealth.LivesText != null)
+            playerHealth.LivesText.text = "Redeploys: " + lives;
     }
 }

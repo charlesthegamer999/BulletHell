@@ -8,7 +8,7 @@ public class BoxAttack : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision");
+      
         collision.gameObject.GetComponent<PlayerHealth>().health += damage;
         if (damage < 0)
         {
